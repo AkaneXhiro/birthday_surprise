@@ -51,48 +51,16 @@
       z-index: 1;
     }
 
-    /* Hidden YouTube Player container */
-    #ytPlayerContainer {
-      position: absolute;
+    /* Hidden YouTube Background Iframe */
+    #yt-player-container {
+      position: fixed;
       top: -9999px;
       left: -9999px;
       width: 1px;
       height: 1px;
       opacity: 0;
       pointer-events: none;
-    }
-
-    /* Music Toggle Button */
-    .music-toggle {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid var(--card-border);
-      color: var(--pink-primary);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      cursor: pointer;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 4px 18px rgba(0,0,0,0.4);
-      transition: all 0.3s ease;
-    }
-
-    .music-toggle.playing {
-      background: rgba(255, 143, 163, 0.3);
-      box-shadow: 0 0 20px var(--pink-glow);
-      animation: pulseMusic 1.8s infinite ease-in-out;
-    }
-
-    @keyframes pulseMusic {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
+      z-index: -100;
     }
 
     /* Progress Indicators */
@@ -648,14 +616,9 @@
   <canvas id="ambient-canvas"></canvas>
 
   <!-- YouTube Hidden Audio Player -->
-  <div id="ytPlayerContainer">
-    <div id="ytPlayer"></div>
+  <div id="yt-player-container">
+    <div id="player"></div>
   </div>
-
-  <!-- Music Toggle Button -->
-  <button id="musicToggle" class="music-toggle" aria-label="Toggle piano music" title="Play piano melody">
-    ♪
-  </button>
 
   <div id="teaseToast" class="tease-toast">Checking gussa level...</div>
   <div class="progress-bar-container" id="progressBar"></div>
@@ -886,7 +849,6 @@
         </p>
       </div>
 
-      <!-- Dedicated Thank You Card -->
       <div class="thankyou-card">
         <h3>Thank You, Anjali 🌸</h3>
         <p>Thank you for taking the time to walk through this small universe.</p>
@@ -911,10 +873,46 @@
     </div>
   </div>
 
-  <!-- Load YouTube IFrame Player API -->
+  <!-- YouTube IFrame API -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
+    // YouTube Background Player Setup
+    let ytPlayer = null;
+    let musicStarted = false;
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('player', {
+        videoId: 'nAw2ooeubSQ',
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          loop: 1,
+          playlist: 'nAw2ooeubSQ',
+          playsinline: 1
+        },
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Try playing immediately (works on desktop, triggers on touch on mobile)
+      event.target.playVideo();
+    }
+
+    function triggerAutoplay() {
+      if (!musicStarted && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+        ytPlayer.playVideo();
+        musicStarted = true;
+      }
+    }
+
+    // Modern browsers require the first tap to unlock audio
+    window.addEventListener('touchstart', triggerAutoplay, { once: true });
+    window.addEventListener('click', triggerAutoplay, { once: true });
+
     // Navigation Dots
     const TOTAL_SCREENS = 8;
     const progressBar = document.getElementById('progressBar');
@@ -926,6 +924,7 @@
     }
 
     function goToScreen(screenNumber) {
+      triggerAutoplay();
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
       const next = document.getElementById(`screen-${screenNumber}`);
       if (next) {
@@ -939,80 +938,14 @@
       }
     }
 
-    // ========================================================
-    // YOUTUBE PIANO TRACK INTEGRATION
-    // Video ID: nAw2ooeubSQ (Benote Happy Birthday Piano)
-    // ========================================================
-    let ytPlayer = null;
-    let isTrackPlaying = false;
-    const musicBtn = document.getElementById('musicToggle');
-
-    window.onYouTubeIframeAPIReady = function() {
-      ytPlayer = new YT.Player('ytPlayer', {
-        height: '1',
-        width: '1',
-        videoId: 'nAw2ooeubSQ',
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          loop: 1,
-          playlist: 'nAw2ooeubSQ',
-          playsinline: 1,
-          rel: 0
-        },
-        events: {
-          onStateChange: onPlayerStateChange
-        }
-      });
-    };
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        isTrackPlaying = true;
-        musicBtn.classList.add('playing');
-        musicBtn.innerText = '⏸';
-      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-        isTrackPlaying = false;
-        musicBtn.classList.remove('playing');
-        musicBtn.innerText = '♪';
-      }
-    }
-
-    function playMusicTrack() {
-      if (ytPlayer && ytPlayer.playVideo) {
-        ytPlayer.playVideo();
-      }
-    }
-
-    function pauseMusicTrack() {
-      if (ytPlayer && ytPlayer.pauseVideo) {
-        ytPlayer.pauseVideo();
-      }
-    }
-
-    musicBtn.addEventListener('click', () => {
-      if (!isTrackPlaying) {
-        playMusicTrack();
-        showTeaseToast('Playing birthday piano track 🎹');
-      } else {
-        pauseMusicTrack();
-      }
-    });
-
-    // Opening Envelope Interaction - Starts music right after tapping envelope!
+    // Opening Envelope Interaction
     let startEnvOpened = false;
     function openStartEnvelope() {
+      triggerAutoplay();
       if (startEnvOpened) return;
       startEnvOpened = true;
       const env = document.getElementById('startEnvelope');
       env.classList.add('opened');
-
-      // Autostart music upon opening the envelope (not on dead initial screen load)
-      playMusicTrack();
-      showTeaseToast('Playing birthday piano track 🎹');
-
       setTimeout(() => {
         document.getElementById('startEnterBtn').style.display = 'inline-block';
       }, 500);
@@ -1130,9 +1063,8 @@ someone took time out of their life to craft an entire little corner of the inte
     };
 
     function triggerOpenLetter(key, el, teaseMsg) {
-      if (el) {
-        el.classList.add('teasing');
-      }
+      triggerAutoplay();
+      if (el) el.classList.add('teasing');
       if (teaseMsg) showTeaseToast(teaseMsg);
 
       setTimeout(() => {
@@ -1153,7 +1085,7 @@ someone took time out of their life to craft an entire little corner of the inte
       if (e.target.id === 'letterModal') closeLetter();
     }
 
-    // Constellation Wishes with Zoom
+    // Constellation Wishes
     const wishes = [
       "I hope you laugh more often and without hesitation this year.",
       "I hope your family stays healthy, united, and happy.",
@@ -1164,6 +1096,7 @@ someone took time out of their life to craft an entire little corner of the inte
     ];
 
     function revealWishWithZoom(index, starEl) {
+      triggerAutoplay();
       document.querySelectorAll('.star-point').forEach(s => s.classList.remove('zoomed'));
       starEl.classList.add('zoomed');
 
@@ -1185,6 +1118,7 @@ someone took time out of their life to craft an entire little corner of the inte
     // Gift Opening
     let giftOpened = false;
     function openGift() {
+      triggerAutoplay();
       if (giftOpened) return;
       giftOpened = true;
 
@@ -1197,9 +1131,7 @@ someone took time out of their life to craft an entire little corner of the inte
       }, 400);
     }
 
-    // ==========================================
-    // AMBIENT PARTICLES (Stars + Petals)
-    // ==========================================
+    // Ambient Particles (Stars + Petals)
     const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
     let width, height;

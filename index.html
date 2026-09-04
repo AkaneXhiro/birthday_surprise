@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti for Poppers -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
@@ -170,7 +172,183 @@
       text-align: left;
     }
 
-    /* SCREEN 1: Interactive Opening Envelope */
+    /* SCREEN 1: CAKE CUTTING INTERACTIVE */
+    .cake-cut-area {
+      position: relative;
+      width: 280px;
+      height: 250px;
+      margin: 25px auto 15px auto;
+      user-select: none;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    .cake-cut-area:active {
+      cursor: grabbing;
+    }
+
+    .swipe-instruction-box {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 143, 163, 0.15);
+      border: 1px dashed var(--pink-primary);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-family: var(--font-hand);
+      font-size: 1.25rem;
+      color: #ffe3ea;
+      animation: pulseInstruction 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseInstruction {
+      from { transform: scale(0.98); opacity: 0.85; }
+      to { transform: scale(1.02); opacity: 1; filter: drop-shadow(0 0 8px var(--pink-primary)); }
+    }
+
+    /* Realistic Cake Styling */
+    .cake-container {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      transition: all 0.5s ease;
+    }
+
+    .cake-plate {
+      position: absolute;
+      bottom: -10px;
+      width: 250px;
+      height: 18px;
+      background: radial-gradient(ellipse at center, #ffffff 0%, #cfd8dc 100%);
+      border-radius: 50%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+
+    .cake-half {
+      width: 100px;
+      height: 130px;
+      position: absolute;
+      bottom: 6px;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 3;
+    }
+
+    .cake-half.left {
+      left: 10px;
+      border-radius: 18px 0 0 14px;
+      background: linear-gradient(135deg, #ff9bb2 0%, #e05284 100%);
+      border-right: 2px dashed rgba(255, 255, 255, 0.4);
+      box-shadow: -6px 8px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .cake-half.right {
+      right: 10px;
+      border-radius: 0 18px 14px 0;
+      background: linear-gradient(135deg, #ff8fa3 0%, #cc3e72 100%);
+      border-left: 2px dashed rgba(255, 255, 255, 0.4);
+      box-shadow: 6px 8px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Cake Icing Top & Layers */
+    .cake-half::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 32px;
+      background: #fff8fa;
+      border-radius: 12px 12px 0 0;
+      box-shadow: inset 0 -3px 6px rgba(255, 143, 163, 0.4);
+    }
+
+    .cake-half::after {
+      content: '';
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: #ffe3ea;
+      opacity: 0.75;
+    }
+
+    /* Cut separation animation */
+    .cake-container.cut .cake-half.left {
+      transform: translateX(-24px) rotate(-5deg);
+    }
+
+    .cake-container.cut .cake-half.right {
+      transform: translateX(24px) rotate(5deg);
+    }
+
+    /* Candles */
+    .candle {
+      position: absolute;
+      top: -26px;
+      width: 8px;
+      height: 34px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4081 5px, #ff4081 10px);
+      border-radius: 4px;
+      z-index: 5;
+    }
+
+    .candle.c1 { left: 40px; }
+    .candle.c2 { right: 40px; }
+
+    .flame {
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 16px;
+      background: radial-gradient(ellipse at 50% 60%, #fffb00 10%, #ff5722 70%);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 14px #ff9800;
+      animation: flicker 0.25s infinite alternate ease-in-out;
+      transition: opacity 0.4s ease;
+    }
+
+    @keyframes flicker {
+      0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+      100% { transform: translateX(-50%) scale(1.15) rotate(2deg); filter: drop-shadow(0 0 12px #ffc107); }
+    }
+
+    .cake-container.cut .flame {
+      opacity: 0;
+    }
+
+    /* Knife visual follows swipe */
+    .cutting-knife {
+      position: absolute;
+      font-size: 2.8rem;
+      pointer-events: none;
+      display: none;
+      z-index: 20;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+    }
+
+    /* Success text after cut */
+    .cut-success-banner {
+      display: none;
+      margin-top: 15px;
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--pink-primary);
+      text-shadow: 0 0 12px var(--pink-glow);
+      animation: fadeInScreen 0.6s ease forwards;
+    }
+
+    /* SCREEN 2: Interactive Opening Envelope */
     .opening-envelope-wrapper {
       perspective: 900px;
       width: 290px;
@@ -265,7 +443,7 @@
       z-index: 10;
     }
 
-    /* Screen 2: Birthday Reveal */
+    /* Screen 3: Birthday Reveal */
     .bday-title {
       font-size: 0.88rem;
       text-transform: uppercase;
@@ -288,7 +466,7 @@
       margin-bottom: 24px;
     }
 
-    /* Screen 3: Reminders */
+    /* Screen 4: Reminders */
     .reminder-grid {
       display: flex;
       flex-direction: column;
@@ -319,7 +497,7 @@
       font-style: italic;
     }
 
-    /* Screen 4: Memories */
+    /* Screen 5: Memories */
     .memory-list {
       display: flex;
       flex-direction: column;
@@ -348,7 +526,7 @@
       color: var(--pink-primary);
     }
 
-    /* Screen 5: Open When (Envelopes) */
+    /* Screen 6: Open When (Envelopes) */
     .envelopes-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -478,7 +656,7 @@
       font-family: var(--font-sans);
     }
 
-    /* Screen 6: Constellation */
+    /* Screen 7: Constellation */
     .constellation-wrapper {
       position: relative;
       width: 100%;
@@ -533,7 +711,7 @@
       line-height: 1.6;
     }
 
-    /* Screen 7: Gift */
+    /* Screen 8: Gift */
     .gift-box-area {
       margin: 30px 0 20px 0;
       width: 130px;
@@ -563,7 +741,7 @@
       animation: fadeInScreen 0.6s ease forwards;
     }
 
-    /* Screen 8: Final Message & Thank You */
+    /* Screen 9: Final Message & Thank You */
     .final-letter-card {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--card-border);
@@ -625,8 +803,38 @@
 
   <main class="screen-container">
 
-    <!-- SCREEN 1: Interactive Opening Envelope -->
+    <!-- SCREEN 1: Interactive Cake Cutting with Poppers -->
     <section class="screen active" id="screen-1">
+      <div style="font-size: 2.2rem; margin-bottom: 6px;">🎂✨</div>
+      <h1 style="font-size: 2.1rem; margin-bottom: 6px;">Make A Wish!</h1>
+      <p style="font-size: 0.95rem;">Swipe across the cake below with your finger or mouse to cut it 🌸</p>
+
+      <div class="cake-cut-area" id="cakeCutArea">
+        <div class="cutting-knife" id="cuttingKnife">🔪</div>
+        <div class="cake-container" id="cakeElement">
+          <div class="candle c1"><div class="flame"></div></div>
+          <div class="candle c2"><div class="flame"></div></div>
+          <div class="cake-half left"></div>
+          <div class="cake-half right"></div>
+          <div class="cake-plate"></div>
+        </div>
+      </div>
+
+      <div class="swipe-instruction-box" id="swipeInstruction">
+        <span>👉</span> Swipe across the cake to cut!
+      </div>
+
+      <div class="cut-success-banner" id="cutSuccessMsg">
+        🎉 Yay! Happy 24th Birthday Anjali! 🎉
+      </div>
+
+      <button class="btn-next" id="cakeNextBtn" style="display: none;" onclick="goToScreen(2)">
+        Open Your Letter 💌
+      </button>
+    </section>
+
+    <!-- SCREEN 2: Interactive Opening Envelope -->
+    <section class="screen" id="screen-2">
       <div style="font-size: 2.5rem; margin-bottom: 8px;">💌</div>
       <h1 style="font-size: 2.1rem; margin-bottom: 6px;">For Anjali 🌸</h1>
       <p style="font-size: 0.92rem;">A special letter has arrived for you. Tap the envelope to open.</p>
@@ -649,11 +857,11 @@
         </div>
       </div>
 
-      <button class="btn-next" id="startEnterBtn" style="display: none;" onclick="goToScreen(2)">✨ Enter Your World</button>
+      <button class="btn-next" id="startEnterBtn" style="display: none;" onclick="goToScreen(3)">✨ Enter Your World</button>
     </section>
 
-    <!-- SCREEN 2: Happy Birthday -->
-    <section class="screen" id="screen-2">
+    <!-- SCREEN 3: Happy Birthday -->
+    <section class="screen" id="screen-3">
       <div class="bday-title">Today is for you</div>
       <h1 class="bday-name">HAPPY 24TH BIRTHDAY<br>ANJALI 🌸</h1>
       <div class="bday-sub">Twenty-four looks good on you.</div>
@@ -661,11 +869,11 @@
         <p>I couldn't hand you a gift in person today.</p>
         <p style="margin-top: 8px; color: #fff;">So I made something instead.</p>
       </div>
-      <button class="btn-next" onclick="goToScreen(3)">Keep going ✨</button>
+      <button class="btn-next" onclick="goToScreen(4)">Keep going ✨</button>
     </section>
 
-    <!-- SCREEN 3: Gentle Reminders -->
-    <section class="screen" id="screen-3">
+    <!-- SCREEN 4: Gentle Reminders -->
+    <section class="screen" id="screen-4">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Gentle Reminders</h2>
       <p style="font-size: 0.9rem;">Things I hope you never lose sight of.</p>
       
@@ -681,11 +889,11 @@
         🍀 And if luck could be shared, you'd always have a piece of mine.
       </div>
 
-      <button class="btn-next" onclick="goToScreen(4)">Next 🌸</button>
+      <button class="btn-next" onclick="goToScreen(5)">Next 🌸</button>
     </section>
 
-    <!-- SCREEN 4: Memories I Treasure -->
-    <section class="screen" id="screen-4">
+    <!-- SCREEN 5: Memories I Treasure -->
+    <section class="screen" id="screen-5">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Memories I Treasure</h2>
       <p style="font-size: 0.9rem;">The little moments that mean the most.</p>
 
@@ -723,11 +931,11 @@
         </div>
       </div>
 
-      <button class="btn-next" onclick="goToScreen(5)">Open Letters 💌</button>
+      <button class="btn-next" onclick="goToScreen(6)">Open Letters 💌</button>
     </section>
 
-    <!-- SCREEN 5: Open When Letters -->
-    <section class="screen" id="screen-5">
+    <!-- SCREEN 6: Open When Letters -->
+    <section class="screen" id="screen-6">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Open When...</h2>
       <p style="font-size: 0.9rem;">Tap an envelope whenever you need it.</p>
 
@@ -775,11 +983,11 @@
         </div>
       </div>
 
-      <button class="btn-next" onclick="goToScreen(6)">The Night Sky ⭐</button>
+      <button class="btn-next" onclick="goToScreen(7)">The Night Sky ⭐</button>
     </section>
 
-    <!-- SCREEN 6: Birthday Constellation -->
-    <section class="screen" id="screen-6">
+    <!-- SCREEN 7: Birthday Constellation -->
+    <section class="screen" id="screen-7">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Birthday Constellation</h2>
       <p style="font-size: 0.9rem;">Tap on any glowing star to zoom in on a wish.</p>
 
@@ -796,11 +1004,11 @@
         Tap any glowing star above...
       </div>
 
-      <button class="btn-next" onclick="goToScreen(7)">Your Gift 🎁</button>
+      <button class="btn-next" onclick="goToScreen(8)">Your Gift 🎁</button>
     </section>
 
-    <!-- SCREEN 7: The Gift -->
-    <section class="screen" id="screen-7">
+    <!-- SCREEN 8: The Gift -->
+    <section class="screen" id="screen-8">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">A Special Gift</h2>
       <p style="font-size: 0.9rem;">Tap the gift box to open it.</p>
 
@@ -820,11 +1028,11 @@
         </p>
       </div>
 
-      <button class="btn-next" id="giftNextBtn" style="display:none;" onclick="goToScreen(8)">One Last Note 🌙</button>
+      <button class="btn-next" id="giftNextBtn" style="display:none;" onclick="goToScreen(9)">One Last Note 🌙</button>
     </section>
 
-    <!-- SCREEN 8: Final Message & Thank You -->
-    <section class="screen" id="screen-8">
+    <!-- SCREEN 9: Final Message & Thank You -->
+    <section class="screen" id="screen-9">
       <div style="font-size: 2.2rem; margin-bottom: 8px;">🌸</div>
       <h2 style="font-size: 2.2rem; margin-bottom: 8px;">For You, Anjali</h2>
 
@@ -898,7 +1106,6 @@
     }
 
     function onPlayerReady(event) {
-      // Try playing immediately (works on desktop, triggers on touch on mobile)
       event.target.playVideo();
     }
 
@@ -909,12 +1116,11 @@
       }
     }
 
-    // Modern browsers require the first tap to unlock audio
     window.addEventListener('touchstart', triggerAutoplay, { once: true });
     window.addEventListener('click', triggerAutoplay, { once: true });
 
-    // Navigation Dots
-    const TOTAL_SCREENS = 8;
+    // Navigation Dots (Updated for 9 total screens)
+    const TOTAL_SCREENS = 9;
     const progressBar = document.getElementById('progressBar');
     for (let i = 1; i <= TOTAL_SCREENS; i++) {
       const dot = document.createElement('div');
@@ -938,7 +1144,117 @@
       }
     }
 
-    // Opening Envelope Interaction
+    /* ========================================================
+       CAKE CUTTING & PARTY POPPER ENGINE
+    ======================================================== */
+    const cakeArea = document.getElementById('cakeCutArea');
+    const knife = document.getElementById('cuttingKnife');
+    const cakeElement = document.getElementById('cakeElement');
+    let isCutting = false;
+    let cakeCutDone = false;
+    let startX = 0, startY = 0;
+
+    function handleStart(e) {
+      if (cakeCutDone) return;
+      triggerAutoplay();
+      isCutting = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      startX = clientX;
+      startY = clientY;
+      updateKnifePosition(clientX, clientY);
+      knife.style.display = 'block';
+    }
+
+    function handleMove(e) {
+      if (!isCutting || cakeCutDone) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      updateKnifePosition(clientX, clientY);
+
+      // Detect swipe threshold across the cake
+      const diffX = Math.abs(clientX - startX);
+      const diffY = Math.abs(clientY - startY);
+      if (diffX > 65 || diffY > 65) {
+        triggerCakeCutCelebration();
+      }
+    }
+
+    function handleEnd() {
+      isCutting = false;
+      knife.style.display = 'none';
+    }
+
+    function updateKnifePosition(x, y) {
+      const rect = cakeArea.getBoundingClientRect();
+      knife.style.left = `${x - rect.left}px`;
+      knife.style.top = `${y - rect.top}px`;
+    }
+
+    cakeArea.addEventListener('mousedown', handleStart);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+
+    cakeArea.addEventListener('touchstart', handleStart, { passive: true });
+    window.addEventListener('touchmove', handleMove, { passive: true });
+    window.addEventListener('touchend', handleEnd);
+
+    function triggerCakeCutCelebration() {
+      if (cakeCutDone) return;
+      cakeCutDone = true;
+      isCutting = false;
+      knife.style.display = 'none';
+
+      // Animate cake slice separation
+      cakeElement.classList.add('cut');
+      document.getElementById('swipeInstruction').style.display = 'none';
+      document.getElementById('cutSuccessMsg').style.display = 'block';
+      document.getElementById('cakeNextBtn').style.display = 'inline-block';
+
+      // Party Poppers & Confetti Cannons
+      launchBirthdayConfetti();
+    }
+
+    function launchBirthdayConfetti() {
+      const count = 200;
+      const defaults = {
+        origin: { y: 0.7 }
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      // Multi-stage fireworks and poppers burst
+      fire(0.25, {
+        spread: 26,
+        startVelocity: 55,
+        colors: ['#ff8fa3', '#ffeaa7', '#ffffff']
+      });
+      fire(0.2, {
+        spread: 60,
+        colors: ['#ff4081', '#e84393', '#ffd1dc']
+      });
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.8
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        colors: ['#ffeaa7', '#ff6b8b', '#70a1ff']
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 45
+      });
+    }
+
+    // Opening Envelope Interaction (Screen 2)
     let startEnvOpened = false;
     function openStartEnvelope() {
       triggerAutoplay();

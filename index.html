@@ -5,26 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Happy 24th Birthday, Anjali 🌸</title>
   
-  <!-- Fonts: Playfair Display for elegant headlines, Plus Jakarta Sans for clean reading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #120917;
-      --bg-gradient: radial-gradient(circle at 50% 20%, #2a1232 0%, #15091b 60%, #0d0411 100%);
-      --pink-primary: #f48fb1;
-      --pink-light: #fce4ec;
-      --pink-soft: rgba(244, 143, 177, 0.15);
-      --pink-glow: rgba(244, 143, 177, 0.4);
-      --cream: #fffafb;
-      --text-main: #fce4ec;
-      --text-muted: #d8b4c8;
-      --card-bg: rgba(255, 255, 255, 0.07);
-      --card-border: rgba(244, 143, 177, 0.22);
+      --bg-dark: #0f0714;
+      --pink-primary: #ff8fa3;
+      --pink-glow: rgba(255, 143, 163, 0.45);
+      --gold-star: #ffeaa7;
+      --cream: #fff5f7;
+      --text-muted: #e0b8c9;
+      --glass-card: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 143, 163, 0.28);
       --font-serif: 'Playfair Display', serif;
       --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-hand: 'Caveat', cursive;
     }
 
     * {
@@ -35,16 +32,29 @@
     }
 
     body {
-      background: var(--bg-dark);
-      background-image: var(--bg-gradient);
-      color: var(--text-main);
+      background-color: var(--bg-dark);
+      background: radial-gradient(circle at 50% 15%, #2d1033 0%, #17071f 50%, #0a030d 100%);
+      color: var(--cream);
       font-family: var(--font-sans);
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Ambient Canvas */
+    /* Ambient Nebulas */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(circle at 75% 30%, rgba(255, 105, 180, 0.12) 0%, transparent 40%),
+                  radial-gradient(circle at 20% 75%, rgba(186, 104, 200, 0.1) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     #ambient-canvas {
       position: fixed;
       top: 0;
@@ -55,61 +65,68 @@
       z-index: 1;
     }
 
-    /* Music Control Button */
+    /* Floating Music Box Button */
     .music-toggle {
       position: fixed;
       top: 18px;
       right: 18px;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.12);
       border: 1px solid var(--card-border);
       color: var(--pink-primary);
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       cursor: pointer;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.4);
       transition: all 0.3s ease;
     }
 
     .music-toggle.playing {
-      background: rgba(244, 143, 177, 0.25);
-      box-shadow: 0 0 15px var(--pink-glow);
+      background: rgba(255, 143, 163, 0.3);
+      box-shadow: 0 0 20px var(--pink-glow);
+      animation: pulseMusic 1.6s infinite ease-in-out;
     }
 
-    /* Progress Indicator */
+    @keyframes pulseMusic {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    /* Progress Indicators */
     .progress-bar-container {
       position: fixed;
-      bottom: 15px;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 90;
       display: flex;
-      gap: 6px;
-      padding: 6px 12px;
-      background: rgba(18, 9, 23, 0.6);
-      border-radius: 20px;
-      border: 1px solid rgba(244, 143, 177, 0.15);
-      backdrop-filter: blur(8px);
+      gap: 7px;
+      padding: 7px 14px;
+      background: rgba(15, 7, 20, 0.7);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 143, 163, 0.2);
+      backdrop-filter: blur(10px);
     }
 
     .progress-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.35s ease;
     }
 
     .progress-dot.active {
-      width: 18px;
+      width: 20px;
       background: var(--pink-primary);
-      border-radius: 10px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px var(--pink-primary);
     }
 
     /* Screen Architecture */
@@ -121,7 +138,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 24px 18px 80px 18px;
+      padding: 24px 18px 90px 18px;
     }
 
     .screen {
@@ -131,7 +148,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      animation: fadeInScreen 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: fadeInScreen 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .screen.active {
@@ -139,58 +156,50 @@
     }
 
     @keyframes fadeInScreen {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Typography & Core UI */
     h1, h2, h3 {
       font-family: var(--font-serif);
       font-weight: 500;
-      color: var(--cream);
-      letter-spacing: 0.02em;
+      color: #fff;
     }
 
     p {
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.75;
       font-size: 1.02rem;
       font-weight: 300;
     }
 
     .btn-next {
-      margin-top: 32px;
-      background: linear-gradient(135deg, #f48fb1 0%, #d81b60 100%);
+      margin-top: 30px;
+      background: linear-gradient(135deg, #ff8fa3 0%, #e84393 100%);
       color: #fff;
       border: none;
       border-radius: 30px;
       padding: 14px 34px;
-      font-size: 0.98rem;
+      font-size: 1rem;
       font-weight: 500;
       font-family: var(--font-sans);
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(216, 27, 96, 0.35);
+      box-shadow: 0 8px 24px rgba(232, 67, 147, 0.38);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       touch-action: manipulation;
     }
 
     .btn-next:active {
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     .glass-card {
-      background: var(--card-bg);
+      background: var(--glass-card);
       border: 1px solid var(--card-border);
       border-radius: 20px;
       padding: 24px 20px;
       backdrop-filter: blur(14px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       width: 100%;
       margin-bottom: 16px;
       text-align: left;
@@ -198,51 +207,41 @@
 
     /* Screen 1: Welcome */
     .moon-icon {
-      font-size: 2.8rem;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 15px rgba(252, 228, 236, 0.6));
-      animation: floatSlow 4s ease-in-out infinite alternate;
+      font-size: 3rem;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 0 20px rgba(255, 143, 163, 0.8));
+      animation: floatMoon 4s ease-in-out infinite alternate;
     }
 
-    @keyframes floatSlow {
-      from { transform: translateY(0); }
-      to { transform: translateY(-8px); }
+    @keyframes floatMoon {
+      from { transform: translateY(0) rotate(-4deg); }
+      to { transform: translateY(-10px) rotate(4deg); }
     }
 
     .welcome-title {
-      font-size: 2.2rem;
-      margin-bottom: 16px;
-      color: #fff;
+      font-size: 2.3rem;
+      margin-bottom: 14px;
     }
 
-    .welcome-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(244, 143, 177, 0.18);
-      border-radius: 18px;
-      padding: 22px 18px;
-      margin: 18px 0;
-      text-align: center;
-    }
-
-    /* Screen 2: Birthday Celebration */
+    /* Screen 2: Birthday Reveal */
     .bday-title {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       text-transform: uppercase;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       color: var(--pink-primary);
       margin-bottom: 8px;
     }
 
     .bday-name {
-      font-size: 2.6rem;
+      font-size: 2.7rem;
       margin-bottom: 12px;
       color: #fff;
-      text-shadow: 0 0 20px var(--pink-glow);
+      text-shadow: 0 0 22px var(--pink-glow);
     }
 
     .bday-sub {
       font-style: italic;
-      color: #f8bbd0;
+      color: #ffb8c6;
       font-size: 1.15rem;
       margin-bottom: 24px;
     }
@@ -251,31 +250,30 @@
     .reminder-grid {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 13px;
       width: 100%;
       margin: 20px 0;
     }
 
     .reminder-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 3px solid var(--pink-primary);
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-left: 3.5px solid var(--pink-primary);
+      border-radius: 12px;
       padding: 14px 18px;
       text-align: left;
       font-size: 0.98rem;
-      color: #fce4ec;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      color: #fff5f7;
     }
 
     .luck-card {
-      background: rgba(244, 143, 177, 0.12);
-      border: 1px solid rgba(244, 143, 177, 0.4);
+      background: rgba(255, 143, 163, 0.15);
+      border: 1px solid rgba(255, 143, 163, 0.45);
       border-radius: 14px;
       padding: 18px;
-      margin-top: 8px;
+      margin-top: 10px;
       text-align: center;
       color: #fff;
-      font-size: 1.02rem;
+      font-size: 1.05rem;
       font-style: italic;
     }
 
@@ -291,10 +289,9 @@
     .memory-card {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 20px 18px;
       text-align: left;
-      transition: transform 0.2s ease;
     }
 
     .memory-header {
@@ -305,37 +302,38 @@
     }
 
     .memory-header h3 {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       color: var(--pink-primary);
     }
 
-    /* Screen 5: Open When Letters */
+    /* Screen 5: Open When (Envelopes with Teasing Animation) */
     .envelopes-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
       width: 100%;
       margin: 20px 0;
     }
 
     .envelope-item {
-      background: rgba(255, 255, 255, 0.05);
+      background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255, 143, 163, 0.06) 100%);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 16px 12px;
+      border-radius: 16px;
+      padding: 18px 12px 14px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       text-align: center;
-      gap: 8px;
-      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .envelope-item:active {
-      transform: scale(0.96);
-      background: rgba(244, 143, 177, 0.18);
+      transform: scale(0.94);
     }
 
     .envelope-item.full-width {
@@ -343,13 +341,70 @@
     }
 
     .env-icon {
-      font-size: 1.6rem;
+      font-size: 2rem;
+      margin-bottom: 6px;
+      transition: transform 0.3s ease;
     }
 
     .env-label {
       font-size: 0.86rem;
       color: #fff;
       font-weight: 500;
+      line-height: 1.35;
+    }
+
+    /* "Open me" teasing badge */
+    .open-me-tag {
+      font-family: var(--font-hand);
+      font-size: 1.05rem;
+      color: #ffd1dc;
+      margin-top: 5px;
+      letter-spacing: 0.03em;
+      display: inline-block;
+      animation: gentleBounce 2.5s infinite ease-in-out;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    /* Playful Shake when Opening */
+    .envelope-item.teasing {
+      animation: teaseWiggle 0.45s ease-in-out;
+    }
+
+    @keyframes teaseWiggle {
+      0% { transform: rotate(0deg) scale(1); }
+      20% { transform: rotate(-8deg) scale(1.04); }
+      40% { transform: rotate(8deg) scale(1.06); }
+      60% { transform: rotate(-5deg) scale(1.05); }
+      80% { transform: rotate(4deg) scale(1.02); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    /* Tease Toast */
+    .tease-toast {
+      position: fixed;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(255, 143, 163, 0.95);
+      color: #1a0820;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      z-index: 350;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+
+    .tease-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     /* Envelope Letter Modal */
@@ -359,8 +414,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(10, 4, 14, 0.85);
-      backdrop-filter: blur(10px);
+      background: rgba(10, 4, 14, 0.88);
+      backdrop-filter: blur(12px);
       z-index: 200;
       display: none;
       align-items: center;
@@ -370,94 +425,98 @@
 
     .letter-modal.active {
       display: flex;
-      animation: modalFadeIn 0.3s ease;
-    }
-
-    @keyframes modalFadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
     }
 
     .letter-content {
-      background: #1e1124;
+      background: #1e0e24;
       border: 1px solid var(--pink-primary);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 28px 22px 24px 22px;
       width: 100%;
       max-width: 440px;
-      max-height: 80vh;
+      max-height: 82vh;
       overflow-y: auto;
       text-align: left;
       position: relative;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px var(--pink-glow);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.6), 0 0 30px var(--pink-glow);
+      animation: letterUnfold 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes letterUnfold {
+      0% { opacity: 0; transform: scale(0.6) rotateX(40deg); }
+      100% { opacity: 1; transform: scale(1) rotateX(0deg); }
     }
 
     .letter-title {
       font-size: 1.3rem;
       color: var(--pink-primary);
       margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .letter-body {
       white-space: pre-line;
       line-height: 1.8;
-      color: #fce4ec;
+      color: #fff5f7;
       font-size: 0.98rem;
     }
 
     .letter-close {
-      margin-top: 20px;
+      margin-top: 22px;
       width: 100%;
-      background: rgba(244, 143, 177, 0.15);
+      background: rgba(255, 143, 163, 0.15);
       border: 1px solid var(--pink-primary);
       color: #fff;
-      padding: 10px;
+      padding: 12px;
       border-radius: 25px;
       cursor: pointer;
+      font-size: 0.92rem;
       font-family: var(--font-sans);
-      font-size: 0.9rem;
     }
 
-    /* Screen 6: Constellation */
+    /* Screen 6: Birthday Constellation (Star Zoom Interaction) */
     .constellation-wrapper {
       position: relative;
       width: 100%;
-      height: 340px;
+      height: 350px;
       margin: 20px 0;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(244, 143, 177, 0.15);
-      border-radius: 20px;
+      background: radial-gradient(circle at 50% 50%, rgba(45, 16, 51, 0.5) 0%, rgba(15, 7, 20, 0.8) 100%);
+      border: 1px solid rgba(255, 143, 163, 0.2);
+      border-radius: 22px;
       overflow: hidden;
     }
 
     .star-point {
       position: absolute;
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      filter: drop-shadow(0 0 8px #f48fb1);
-      animation: pulseStar 2s infinite alternate;
+      filter: drop-shadow(0 0 10px var(--pink-primary));
+      animation: pulseStar 2s infinite alternate ease-in-out;
       border-radius: 50%;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .star-point.zoomed {
+      transform: scale(2.3) rotate(15deg) !important;
+      filter: drop-shadow(0 0 25px #fff) drop-shadow(0 0 40px var(--pink-primary));
+      z-index: 50;
     }
 
     @keyframes pulseStar {
-      0% { transform: scale(0.9); opacity: 0.7; }
-      100% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 12px #fff); }
+      0% { transform: scale(0.9); opacity: 0.75; }
+      100% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 14px var(--gold-star)); }
     }
 
     .wish-display-box {
-      min-height: 70px;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.06);
+      min-height: 80px;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.07);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
+      border-radius: 16px;
       width: 100%;
       display: flex;
       align-items: center;
@@ -465,57 +524,72 @@
       text-align: center;
       font-style: italic;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1.02rem;
+      line-height: 1.6;
+      transition: all 0.3s ease;
     }
 
-    /* Screen 7: The Gift */
+    /* Screen 7: The Gift (Balanced, Timeless Focus) */
     .gift-box-area {
-      position: relative;
-      margin: 30px 0;
-      width: 120px;
-      height: 120px;
+      margin: 30px 0 20px 0;
+      width: 130px;
+      height: 130px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .gift-box-emoji {
-      font-size: 5rem;
-      transition: transform 0.4s ease;
-      filter: drop-shadow(0 10px 20px rgba(244, 143, 177, 0.4));
+      font-size: 5.2rem;
+      transition: transform 0.45s ease;
+      filter: drop-shadow(0 10px 24px rgba(255, 143, 163, 0.5));
       user-select: none;
+      animation: gentleFloat 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes gentleFloat {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
     }
 
     .gift-revealed-card {
       display: none;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.07);
       border: 1px solid var(--pink-primary);
-      border-radius: 18px;
-      padding: 24px;
+      border-radius: 20px;
+      padding: 24px 20px;
       text-align: left;
       line-height: 1.8;
       width: 100%;
       animation: fadeInScreen 0.6s ease forwards;
     }
 
-    /* Screen 8: Final Message */
-    .final-heart {
-      font-size: 2.2rem;
-      margin-bottom: 20px;
-      animation: pulseStar 2.5s infinite alternate;
+    /* Screen 8: Final Beautiful Note (Exact Copy) */
+    .final-letter-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 26px 20px;
+      text-align: left;
+      line-height: 1.85;
+      font-size: 0.98rem;
+      margin: 20px 0;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
     }
 
-    .final-quote {
-      font-family: var(--font-serif);
-      font-size: 1.4rem;
-      font-style: italic;
-      color: #fff;
-      margin-top: 24px;
-      line-height: 1.6;
+    .final-letter-card p {
+      margin-bottom: 16px;
+      color: #fff5f7;
     }
 
-    /* Small Screen Adjustments */
+    .final-letter-card p:last-child {
+      margin-bottom: 0;
+    }
+
     @media (max-width: 400px) {
-      .welcome-title { font-size: 1.9rem; }
-      .bday-name { font-size: 2.2rem; }
+      .welcome-title { font-size: 2rem; }
+      .bday-name { font-size: 2.25rem; }
       .envelopes-grid { grid-template-columns: 1fr; }
       .envelope-item.full-width { grid-column: span 1; }
     }
@@ -525,16 +599,15 @@
 
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Audio Toggle (Background Piano) -->
-  <button id="musicToggle" class="music-toggle" aria-label="Toggle ambient music" title="Play soft music">
+  <!-- Cozy Music Box Audio Toggle -->
+  <button id="musicToggle" class="music-toggle" aria-label="Toggle music box" title="Play cozy music box chime">
     ♪
   </button>
-  <audio id="bgAudio" loop preload="none">
-    <!-- Soft royalty-free ambient piano source -->
-    <source src="https://cdn.pixabay.com/download/audio/2022/05/16/audio_c8404a112a.mp3?filename=soft-piano-ambient-111154.mp3" type="audio/mp3">
-  </audio>
 
-  <!-- Navigation Dots -->
+  <!-- Tease Toast Notification -->
+  <div id="teaseToast" class="tease-toast">Checking gussa level...</div>
+
+  <!-- Progress Bar Dots -->
   <div class="progress-bar-container" id="progressBar"></div>
 
   <main class="screen-container">
@@ -543,13 +616,13 @@
     <section class="screen active" id="screen-1">
       <div class="moon-icon">🌙</div>
       <h1 class="welcome-title">Hey Anjali 🌸</h1>
-      <div class="welcome-card">
+      <div class="glass-card" style="text-align: center;">
         <p>Before you continue...</p>
         <p style="margin-top: 10px; color: #fff; font-weight: 400;">
           This little corner of the internet was made especially for you.
         </p>
-        <p style="margin-top: 12px; font-size: 0.92rem;">
-          Take a moment, get comfortable,<br>and keep tapping.
+        <p style="margin-top: 12px; font-size: 0.93rem;">
+          Take a quiet moment, get comfortable,<br>and keep tapping.
         </p>
       </div>
       <button class="btn-next" onclick="goToScreen(2)">✨ Enter</button>
@@ -562,12 +635,12 @@
       <div class="bday-sub">Twenty-four looks good on you.</div>
       <div class="glass-card" style="text-align: center;">
         <p>I couldn't hand you a gift in person today.</p>
-        <p style="margin-top: 8px; color: #fff;">So I built something instead.</p>
+        <p style="margin-top: 8px; color: #fff;">So I made something instead.</p>
       </div>
       <button class="btn-next" onclick="goToScreen(3)">Keep going ✨</button>
     </section>
 
-    <!-- SCREEN 3: Things I Hope You Never Forget -->
+    <!-- SCREEN 3: Gentle Reminders -->
     <section class="screen" id="screen-3">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Gentle Reminders</h2>
       <p style="font-size: 0.9rem;">Things I hope you never lose sight of.</p>
@@ -576,7 +649,7 @@
         <div class="reminder-card">🌸 You are stronger than you think.</div>
         <div class="reminder-card">🌸 You care more deeply than most people realize.</div>
         <div class="reminder-card">🌸 Your family is lucky to have you.</div>
-        <div class="reminder-card">🌸 Even when you're upset, your heart stays genuinely good.</div>
+        <div class="reminder-card">🌸 Even when you're upset, your heart stays good.</div>
         <div class="reminder-card">🌸 You deserve happiness that doesn't come with conditions.</div>
       </div>
 
@@ -590,7 +663,7 @@
     <!-- SCREEN 4: Memories I Treasure -->
     <section class="screen" id="screen-4">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Memories I Treasure</h2>
-      <p style="font-size: 0.9rem;">The little moments that meant the most to me.</p>
+      <p style="font-size: 0.9rem;">The little moments that mean the most.</p>
 
       <div class="memory-list">
         <div class="memory-card">
@@ -606,7 +679,7 @@
             <span>💬</span>
             <h3>Talking Together</h3>
           </div>
-          <p>Sometimes the conversations were important. Sometimes they were about nothing at all. But I always just enjoyed talking to you.</p>
+          <p>Sometimes the conversations mattered. Sometimes they didn't. I just enjoyed talking to you.</p>
         </div>
 
         <div class="memory-card">
@@ -614,7 +687,7 @@
             <span>✨</span>
             <h3>Our Matched Vibe</h3>
           </div>
-          <p>There are people you can spend hours around and still feel distant. And then there are people with whom things simply feel natural. Thank you for being one of those rare people.</p>
+          <p>There are people you can spend hours with and still feel distant. And then there are people with whom things simply feel natural. Thank you for being one of those people.</p>
         </div>
 
         <div class="memory-card">
@@ -622,7 +695,7 @@
             <span>🧸</span>
             <h3>Office Days</h3>
           </div>
-          <p>I know I used to constantly cling around you and stay close during office hours. Looking back at those days, every single one of those moments still makes me smile.</p>
+          <p>I know I used to cling around you a lot during office time. Looking back, those moments still make me smile.</p>
         </div>
       </div>
 
@@ -632,61 +705,67 @@
     <!-- SCREEN 5: Open When Letters -->
     <section class="screen" id="screen-5">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Open When...</h2>
-      <p style="font-size: 0.9rem;">Little letters whenever you need them. Tap any envelope.</p>
+      <p style="font-size: 0.9rem;">Tap an envelope whenever you need it.</p>
 
       <div class="envelopes-grid">
-        <div class="envelope-item" onclick="openLetter('bad_day')">
+        <div class="envelope-item" onclick="triggerOpenLetter('bad_day', this, 'Delivering warm hugs... 🌧️')">
           <span class="env-icon">🌧️</span>
           <span class="env-label">You're having a bad day</span>
+          <span class="open-me-tag">Open me ✨</span>
         </div>
 
-        <div class="envelope-item" onclick="openLetter('angry')">
+        <div class="envelope-item" onclick="triggerOpenLetter('angry', this, 'Checking gussa level... ⚠️')">
           <span class="env-icon">😠</span>
           <span class="env-label">You're angry</span>
+          <span class="open-me-tag">Tap if you dare 😠</span>
         </div>
 
-        <div class="envelope-item" onclick="openLetter('motivation')">
+        <div class="envelope-item" onclick="triggerOpenLetter('motivation', this, 'Charging confidence... 🚀')">
           <span class="env-icon">🚀</span>
           <span class="env-label">You need motivation</span>
+          <span class="open-me-tag">Open me ✨</span>
         </div>
 
-        <div class="envelope-item" onclick="openLetter('alone')">
+        <div class="envelope-item" onclick="triggerOpenLetter('alone', this, 'You are never alone 🌙')">
           <span class="env-icon">🌙</span>
           <span class="env-label">You feel alone</span>
+          <span class="open-me-tag">You need this 🌙</span>
         </div>
 
-        <div class="envelope-item" onclick="openLetter('sleep')">
+        <div class="envelope-item" onclick="triggerOpenLetter('sleep', this, 'Preparing peaceful thoughts... 😴')">
           <span class="env-icon">😴</span>
           <span class="env-label">You can't sleep</span>
+          <span class="open-me-tag">Open me ☁️</span>
         </div>
 
-        <div class="envelope-item" onclick="openLetter('smile')">
+        <div class="envelope-item" onclick="triggerOpenLetter('smile', this, 'Smile loading... 99% 😊')">
           <span class="env-icon">😊</span>
           <span class="env-label">You need a smile</span>
+          <span class="open-me-tag">Tap to smile ✨</span>
         </div>
 
-        <div class="envelope-item full-width" onclick="openLetter('birthday')">
+        <div class="envelope-item full-width" onclick="triggerOpenLetter('birthday', this, 'Opening birthday time capsule 🎂')">
           <span class="env-icon">🎂</span>
           <span class="env-label">You want to remember this birthday</span>
+          <span class="open-me-tag">Open me 🌸</span>
         </div>
       </div>
 
       <button class="btn-next" onclick="goToScreen(6)">The Night Sky ⭐</button>
     </section>
 
-    <!-- SCREEN 6: Constellation of Wishes -->
+    <!-- SCREEN 6: Birthday Constellation (Star Zoom Feature) -->
     <section class="screen" id="screen-6">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Birthday Constellation</h2>
-      <p style="font-size: 0.9rem;">Tap on each glowing star to reveal a wish.</p>
+      <p style="font-size: 0.9rem;">Tap on any glowing star to zoom in on a wish.</p>
 
       <div class="constellation-wrapper" id="constellationBox">
-        <!-- 6 Stars with coordinates -->
-        <div class="star-point" style="top: 20%; left: 22%;" onclick="revealWish(0)">⭐</div>
-        <div class="star-point" style="top: 18%; left: 72%;" onclick="revealWish(1)">✨</div>
-        <div class="star-point" style="top: 48%; left: 45%;" onclick="revealWish(2)">🌟</div>
-        <div class="star-point" style="top: 75%; left: 20%;" onclick="revealWish(3)">⭐</div>
-        <div class="star-point" style="top: 72%; left: 75%;" onclick="revealWish(4)">✨</div>
-        <div class="star-point" style="top: 35%; left: 82%;" onclick="revealWish(5)">🌟</div>
+        <div class="star-point" id="star-0" style="top: 20%; left: 22%;" onclick="revealWishWithZoom(0, this)">⭐</div>
+        <div class="star-point" id="star-1" style="top: 18%; left: 72%;" onclick="revealWishWithZoom(1, this)">✨</div>
+        <div class="star-point" id="star-2" style="top: 48%; left: 45%;" onclick="revealWishWithZoom(2, this)">🌟</div>
+        <div class="star-point" id="star-3" style="top: 75%; left: 20%;" onclick="revealWishWithZoom(3, this)">⭐</div>
+        <div class="star-point" id="star-4" style="top: 72%; left: 75%;" onclick="revealWishWithZoom(4, this)">✨</div>
+        <div class="star-point" id="star-5" style="top: 36%; left: 82%;" onclick="revealWishWithZoom(5, this)">🌟</div>
       </div>
 
       <div class="wish-display-box" id="wishDisplay">
@@ -699,7 +778,7 @@
     <!-- SCREEN 7: The Gift -->
     <section class="screen" id="screen-7">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">A Special Gift</h2>
-      <p style="font-size: 0.9rem;">Tap the box to open it.</p>
+      <p style="font-size: 0.9rem;">Tap the gift box to open it.</p>
 
       <div class="gift-box-area" id="giftBox" onclick="openGift()">
         <div class="gift-box-emoji" id="giftEmoji">🎁</div>
@@ -710,10 +789,10 @@
           "I wanted to give you something no store could sell."
         </p>
         <p>
-          Anything bought would eventually get old, fade away, or be forgotten. So instead, I wanted to give you something made purely with care:
+          Physical things get old, fade away, or get lost over time. So instead, I wanted to give you something timeless:
         </p>
-        <p style="margin-top: 10px; color: #fce4ec;">
-          My time. My effort. My memories. And genuine wishes that will stay true for you, always.
+        <p style="margin-top: 10px; color: #fff;">
+          A corner of the internet built purely for you. Time, effort, cherished memories, and wishes that will always stay true for you.
         </p>
       </div>
 
@@ -722,31 +801,38 @@
 
     <!-- SCREEN 8: Final Message -->
     <section class="screen" id="screen-8">
-      <div class="final-heart">🌸</div>
-      <h2 style="font-size: 2.2rem; margin-bottom: 16px;">Happy Birthday, Anjali</h2>
+      <div class="moon-icon" style="font-size: 2.2rem; margin-bottom: 8px;">🌸</div>
+      <h2 style="font-size: 2.2rem; margin-bottom: 8px;">For You, Anjali</h2>
 
-      <div class="glass-card" style="text-align: center; margin: 16px 0;">
-        <p>Thank you for the memories.</p>
-        <p style="margin-top: 6px;">Thank you for the conversations.</p>
-        <p style="margin-top: 6px;">Thank you for being such a wonderful part of my life.</p>
+      <div class="final-letter-card">
+        <p><strong>Anjali,</strong></p>
+
+        <p>On your birthday, I just want to wish you a life filled with the very best of everything — endless happiness, peace in your heart, success in everything you choose to do, and countless beautiful moments that make you smile.</p>
+
+        <p>May life always be kind to you. May you meet wonderful people, experience beautiful places, achieve everything you dream of, and have countless reasons to feel grateful and happy. I hope every coming year brings you closer to the life you truly deserve, and that you always remain strong, confident, and proud of the person you become.</p>
+
+        <p>You have been one of the luckiest parts of my life, and I will always be grateful for every moment, every conversation, every laugh, every fight, every silly memory, and every little moment we shared.</p>
+
+        <p>Thank you for the conversations, the laughter, the fights, the silly moments, the support, and all those little memories that I'll always carry with me.</p>
+
+        <p>I genuinely hope this year brings you peace, happiness, success, and everything you've been working towards. I hope you grow into the person you want to become and never forget how capable you are.</p>
+
+        <p>May you always have the best of the best life, Anjali.<br>
+        May beautiful moments keep finding you, and may happiness always find its way back to you.</p>
+
+        <p style="color: var(--pink-primary); font-weight: 500; font-size: 1.05rem; margin-top: 18px;">
+          Happy Birthday. ❤️
+        </p>
       </div>
 
-      <div class="final-quote">
-        "Some people leave memories.<br>You left warmth."
-      </div>
-
-      <p style="margin-top: 24px; font-size: 0.88rem; color: #d8b4c8;">
-        May this 24th year bring you peace, good health, and plenty of reasons to smile.
-      </p>
-
-      <button class="btn-next" style="margin-top: 36px; background: rgba(255,255,255,0.08); border: 1px solid var(--card-border);" onclick="goToScreen(1)">
+      <button class="btn-next" style="background: rgba(255,255,255,0.08); border: 1px solid var(--card-border);" onclick="goToScreen(1)">
         ↺ Revisit from start
       </button>
     </section>
 
   </main>
 
-  <!-- Letter Reader Modal -->
+  <!-- Letter Modal -->
   <div class="letter-modal" id="letterModal" onclick="closeLetterOnBackdrop(event)">
     <div class="letter-content">
       <div class="letter-title" id="letterModalTitle"></div>
@@ -756,11 +842,8 @@
   </div>
 
   <script>
-    // Total Screens
+    // Navigation Dots
     const TOTAL_SCREENS = 8;
-    let currentScreen = 1;
-
-    // Build Progress Indicators
     const progressBar = document.getElementById('progressBar');
     for (let i = 1; i <= TOTAL_SCREENS; i++) {
       const dot = document.createElement('div');
@@ -771,23 +854,29 @@
 
     function goToScreen(screenNumber) {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-      const nextScreen = document.getElementById(`screen-${screenNumber}`);
-      if (nextScreen) {
-        nextScreen.classList.add('active');
-        currentScreen = screenNumber;
+      const next = document.getElementById(`screen-${screenNumber}`);
+      if (next) {
+        next.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Update progress dots
         for (let i = 1; i <= TOTAL_SCREENS; i++) {
           const dot = document.getElementById(`dot-${i}`);
-          if (dot) {
-            dot.classList.toggle('active', i === screenNumber);
-          }
+          if (dot) dot.classList.toggle('active', i === screenNumber);
         }
       }
     }
 
-    // Letters Content
+    // Tease Toast function
+    function showTeaseToast(msg) {
+      const toast = document.getElementById('teaseToast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    }
+
+    // Letters content
     const letters = {
       bad_day: {
         title: "🌧️ Open When You're Having A Bad Day",
@@ -816,17 +905,17 @@ Take a deep breath before you throw something. 😄
 I know you're angry right now.
 And maybe you have every single right to be.
 
-But don't let one frustrating moment steal your entire peace today.
+But don't let one bad moment steal your entire peace today.
 Your peace is worth protecting.
 
 Cool down, take your time, and go have some momos.
-Then conquer the world again.`
+Then go conquer the world again.`
       },
       motivation: {
         title: "🚀 Open When You Need Motivation",
         body: `Look at how far you have already come.
 
-The version of you from a few years ago would be genuinely proud of the capable person you've become today.
+The version of you from a few years ago would be proud of the capable person you've become today.
 
 Keep going.
 Not because it's easy,
@@ -854,7 +943,7 @@ Yes. I'm serious.
 
 Close your eyes.
 Stop replaying today's problems or overthinking tomorrow.
-They can wait.
+They will wait.
 
 Tonight is for rest.
 Sleep well, Anjali.
@@ -881,7 +970,7 @@ This note isn't complete until you do.`
         body: `If you're reading this months from now,
 I hope life has been gentle and kind to you.
 
-Whether things are going great or feel slightly challenging right now, I want you to remember something:
+Whether things are going great or feel a bit challenging right now, I want you to remember something:
 
 On your 24th birthday,
 someone took time out of their life to craft an entire little corner of the internet, just to celebrate you.
@@ -890,7 +979,21 @@ someone took time out of their life to craft an entire little corner of the inte
       }
     };
 
-    function openLetter(key) {
+    // Teasing envelope tap before opening
+    function triggerOpenLetter(key, el, teaseMsg) {
+      if (el) {
+        el.classList.add('teasing');
+        playMusicBoxChime(587.33); // playful high tin note
+      }
+      if (teaseMsg) showTeaseToast(teaseMsg);
+
+      setTimeout(() => {
+        if (el) el.classList.remove('teasing');
+        openLetterModal(key);
+      }, 420);
+    }
+
+    function openLetterModal(key) {
       const data = letters[key];
       if (!data) return;
       document.getElementById('letterModalTitle').innerText = data.title;
@@ -903,12 +1006,10 @@ someone took time out of their life to craft an entire little corner of the inte
     }
 
     function closeLetterOnBackdrop(e) {
-      if (e.target.id === 'letterModal') {
-        closeLetter();
-      }
+      if (e.target.id === 'letterModal') closeLetter();
     }
 
-    // Constellation Wishes
+    // Constellation Wishes with Zoom In
     const wishes = [
       "I hope you laugh more often and without hesitation this year.",
       "I hope your family stays healthy, united, and happy.",
@@ -918,22 +1019,44 @@ someone took time out of their life to craft an entire little corner of the inte
       "May light and good people always find you in darker moments."
     ];
 
-    function revealWish(index) {
+    function revealWishWithZoom(index, starEl) {
+      // Play high chime
+      playMusicBoxChime(659.25 + (index * 60));
+
+      // Reset all stars zoom
+      document.querySelectorAll('.star-point').forEach(s => s.classList.remove('zoomed'));
+      
+      // Zoom this star
+      starEl.classList.add('zoomed');
+
       const display = document.getElementById('wishDisplay');
-      display.style.opacity = 0;
+      display.style.opacity = '0';
+      display.style.transform = 'scale(0.95)';
+
       setTimeout(() => {
         display.innerHTML = `"${wishes[index]}"`;
-        display.style.opacity = 1;
-      }, 150);
+        display.style.opacity = '1';
+        display.style.transform = 'scale(1)';
+      }, 220);
+
+      // Return star to normal gently after 1.5s
+      setTimeout(() => {
+        starEl.classList.remove('zoomed');
+      }, 1600);
     }
 
-    // Gift Opening Interaction
+    // Gift Opening
     let giftOpened = false;
     function openGift() {
       if (giftOpened) return;
       giftOpened = true;
+      playMusicBoxChime(523.25); // C5
+      setTimeout(() => playMusicBoxChime(659.25), 150); // E5
+      setTimeout(() => playMusicBoxChime(783.99), 300); // G5
+      setTimeout(() => playMusicBoxChime(1046.50), 450); // C6
+
       const emoji = document.getElementById('giftEmoji');
-      emoji.style.transform = "scale(1.3) rotate(-10deg)";
+      emoji.style.transform = "scale(1.3) rotate(-12deg)";
       setTimeout(() => {
         emoji.style.display = "none";
         document.getElementById('giftCard').style.display = "block";
@@ -941,29 +1064,104 @@ someone took time out of their life to craft an entire little corner of the inte
       }, 400);
     }
 
-    // Music Control
-    const musicBtn = document.getElementById('musicToggle');
-    const audio = document.getElementById('bgAudio');
-    let isPlaying = false;
+    // ==========================================
+    // COZY "TIN TIN TIN" MUSIC BOX AUDIO ENGINE
+    // Uses Web Audio API - 100% self contained!
+    // ==========================================
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let musicInterval = null;
 
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Generates a pure bell-like Music Box "tin" chime
+    function playMusicBoxChime(freq, when = 0, duration = 1.4) {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime + when;
+
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      // Sine wave with soft harmonic
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+
+      // Music box envelope (immediate strike, metallic decay)
+      gainNode.gain.setValueAtTime(0.35, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration);
+    }
+
+    // Twinkling cozy melody (Tin tin tin tin)
+    const melody = [
+      { f: 523.25, d: 0.4 }, // C5
+      { f: 523.25, d: 0.4 }, // C5
+      { f: 587.33, d: 0.8 }, // D5
+      { f: 523.25, d: 0.8 }, // C5
+      { f: 698.46, d: 0.8 }, // F5
+      { f: 659.25, d: 1.4 }, // E5
+      { f: 523.25, d: 0.4 }, // C5
+      { f: 523.25, d: 0.4 }, // C5
+      { f: 587.33, d: 0.8 }, // D5
+      { f: 523.25, d: 0.8 }, // C5
+      { f: 783.99, d: 0.8 }, // G5
+      { f: 698.46, d: 1.4 }  // F5
+    ];
+
+    function startMusicBox() {
+      initAudio();
+      let noteIndex = 0;
+
+      function playNextNote() {
+        if (!isMusicPlaying) return;
+        const note = melody[noteIndex];
+        playMusicBoxChime(note.f, 0, 1.8);
+
+        const nextDelay = note.d * 850; // Slow, cozy lullaby tempo
+        noteIndex = (noteIndex + 1) % melody.length;
+        musicInterval = setTimeout(playNextNote, nextDelay);
+      }
+
+      playNextNote();
+    }
+
+    function stopMusicBox() {
+      isMusicPlaying = false;
+      if (musicInterval) clearTimeout(musicInterval);
+    }
+
+    const musicBtn = document.getElementById('musicToggle');
     musicBtn.addEventListener('click', () => {
-      if (!isPlaying) {
-        audio.play().then(() => {
-          isPlaying = true;
-          musicBtn.classList.add('playing');
-          musicBtn.innerText = '⏸';
-        }).catch(() => {
-          // Playback blocked or failed
-        });
+      initAudio();
+      if (!isMusicPlaying) {
+        isMusicPlaying = true;
+        musicBtn.classList.add('playing');
+        musicBtn.innerText = '⏸';
+        startMusicBox();
+        showTeaseToast('Playing cozy music box... 🎵');
       } else {
-        audio.pause();
-        isPlaying = false;
+        stopMusicBox();
         musicBtn.classList.remove('playing');
         musicBtn.innerText = '♪';
       }
     });
 
-    // Ambient Canvas Animation (Gentle Floating Stars & Petals)
+    // ==========================================
+    // AMBIENT PARTICLES (Stars + Drifting Petals)
+    // ==========================================
     const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
     let width, height;
@@ -973,44 +1171,35 @@ someone took time out of their life to craft an entire little corner of the inte
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
-
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         this.size = Math.random() * 2.2 + 0.6;
-        this.speedX = (Math.random() - 0.5) * 0.4;
-        this.speedY = Math.random() * 0.5 + 0.2;
-        this.alpha = Math.random() * 0.5 + 0.2;
-        this.isPetal = Math.random() > 0.65;
+        this.speedX = (Math.random() - 0.5) * 0.35;
+        this.speedY = Math.random() * 0.45 + 0.15;
+        this.alpha = Math.random() * 0.5 + 0.25;
+        this.isPetal = Math.random() > 0.62;
       }
-
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
         if (this.y > height) {
           this.y = -10;
           this.x = Math.random() * width;
         }
       }
-
       draw() {
         ctx.save();
         ctx.beginPath();
         if (this.isPetal) {
-          // Soft pink petal
-          ctx.fillStyle = `rgba(244, 143, 177, ${this.alpha * 0.7})`;
-          ctx.arc(this.x, this.y, this.size * 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 143, 163, ${this.alpha * 0.75})`;
+          ctx.arc(this.x, this.y, this.size * 1.6, 0, Math.PI * 2);
         } else {
-          // Glowing star point
           ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         }
@@ -1019,20 +1208,17 @@ someone took time out of their life to craft an entire little corner of the inte
       }
     }
 
-    // Initialize 55 ambient particles
-    for (let i = 0; i < 55; i++) {
-      particles.push(new Particle());
-    }
+    for (let i = 0; i < 55; i++) particles.push(new Particle());
 
-    function animate() {
+    function animateParticles() {
       ctx.clearRect(0, 0, width, height);
       for (let p of particles) {
         p.update();
         p.draw();
       }
-      requestAnimationFrame(animate);
+      requestAnimationFrame(animateParticles);
     }
-    animate();
+    animateParticles();
   </script>
 </body>
 </html>

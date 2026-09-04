@@ -41,20 +41,6 @@
       position: relative;
     }
 
-    /* Ambient Nebulas */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -20%;
-      left: -20%;
-      width: 140%;
-      height: 140%;
-      background: radial-gradient(circle at 75% 30%, rgba(255, 105, 180, 0.12) 0%, transparent 40%),
-                  radial-gradient(circle at 20% 75%, rgba(186, 104, 200, 0.1) 0%, transparent 45%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
     #ambient-canvas {
       position: fixed;
       top: 0;
@@ -65,7 +51,7 @@
       z-index: 1;
     }
 
-    /* Floating Music Box Button */
+    /* Music Toggle Button */
     .music-toggle {
       position: fixed;
       top: 18px;
@@ -74,13 +60,13 @@
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid var(--card-border);
       color: var(--pink-primary);
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       cursor: pointer;
       backdrop-filter: blur(14px);
       box-shadow: 0 4px 18px rgba(0,0,0,0.4);
@@ -90,7 +76,7 @@
     .music-toggle.playing {
       background: rgba(255, 143, 163, 0.3);
       box-shadow: 0 0 20px var(--pink-glow);
-      animation: pulseMusic 1.6s infinite ease-in-out;
+      animation: pulseMusic 1.8s infinite ease-in-out;
     }
 
     @keyframes pulseMusic {
@@ -108,7 +94,7 @@
       display: flex;
       gap: 7px;
       padding: 7px 14px;
-      background: rgba(15, 7, 20, 0.7);
+      background: rgba(15, 7, 20, 0.75);
       border-radius: 30px;
       border: 1px solid rgba(255, 143, 163, 0.2);
       backdrop-filter: blur(10px);
@@ -174,7 +160,7 @@
     }
 
     .btn-next {
-      margin-top: 30px;
+      margin-top: 28px;
       background: linear-gradient(135deg, #ff8fa3 0%, #e84393 100%);
       color: #fff;
       border: none;
@@ -205,22 +191,99 @@
       text-align: left;
     }
 
-    /* Screen 1: Welcome */
-    .moon-icon {
-      font-size: 3rem;
-      margin-bottom: 18px;
-      filter: drop-shadow(0 0 20px rgba(255, 143, 163, 0.8));
-      animation: floatMoon 4s ease-in-out infinite alternate;
+    /* SCREEN 1: Interactive Opening Envelope */
+    .opening-envelope-wrapper {
+      perspective: 900px;
+      width: 290px;
+      height: 190px;
+      margin: 25px auto;
+      cursor: pointer;
+      position: relative;
     }
 
-    @keyframes floatMoon {
-      from { transform: translateY(0) rotate(-4deg); }
-      to { transform: translateY(-10px) rotate(4deg); }
+    .start-envelope {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #3d1445 0%, #200b26 100%);
+      border: 1.5px solid var(--pink-primary);
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.5), 0 0 25px rgba(255, 143, 163, 0.25);
+      transition: transform 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .welcome-title {
-      font-size: 2.3rem;
-      margin-bottom: 14px;
+    .start-envelope.opened {
+      transform: scale(0.92);
+    }
+
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      border-left: 145px solid transparent;
+      border-right: 145px solid transparent;
+      border-top: 100px solid #571c63;
+      transform-origin: top;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 5;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    }
+
+    .start-envelope.opened .env-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .env-wax-seal {
+      position: absolute;
+      top: 58px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #ff6b8b, #b31238);
+      border-radius: 50%;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      transition: opacity 0.4s ease;
+    }
+
+    .start-envelope.opened .env-wax-seal {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .env-letter-slip {
+      position: absolute;
+      width: 90%;
+      height: 85%;
+      background: #fff8fa;
+      color: #240c2b;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.88rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 2;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+      transition: transform 0.6s ease;
+    }
+
+    .start-envelope.opened .env-letter-slip {
+      transform: translateY(-50px) scale(1.05);
+      z-index: 10;
     }
 
     /* Screen 2: Birthday Reveal */
@@ -306,7 +369,7 @@
       color: var(--pink-primary);
     }
 
-    /* Screen 5: Open When (Envelopes with Teasing Animation) */
+    /* Screen 5: Open When (Envelopes) */
     .envelopes-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -327,40 +390,19 @@
       cursor: pointer;
       text-align: center;
       position: relative;
-      overflow: hidden;
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .envelope-item:active {
-      transform: scale(0.94);
-    }
+    .envelope-item:active { transform: scale(0.94); }
+    .envelope-item.full-width { grid-column: span 2; }
+    .env-icon { font-size: 2rem; margin-bottom: 6px; }
 
-    .envelope-item.full-width {
-      grid-column: span 2;
-    }
-
-    .env-icon {
-      font-size: 2rem;
-      margin-bottom: 6px;
-      transition: transform 0.3s ease;
-    }
-
-    .env-label {
-      font-size: 0.86rem;
-      color: #fff;
-      font-weight: 500;
-      line-height: 1.35;
-    }
-
-    /* "Open me" teasing badge */
     .open-me-tag {
       font-family: var(--font-hand);
       font-size: 1.05rem;
       color: #ffd1dc;
       margin-top: 5px;
-      letter-spacing: 0.03em;
-      display: inline-block;
       animation: gentleBounce 2.5s infinite ease-in-out;
     }
 
@@ -369,7 +411,6 @@
       50% { transform: translateY(-3px); }
     }
 
-    /* Playful Shake when Opening */
     .envelope-item.teasing {
       animation: teaseWiggle 0.45s ease-in-out;
     }
@@ -383,7 +424,6 @@
       100% { transform: rotate(0deg) scale(1); }
     }
 
-    /* Tease Toast */
     .tease-toast {
       position: fixed;
       top: 25px;
@@ -407,7 +447,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Envelope Letter Modal */
     .letter-modal {
       position: fixed;
       top: 0;
@@ -423,9 +462,7 @@
       padding: 20px;
     }
 
-    .letter-modal.active {
-      display: flex;
-    }
+    .letter-modal.active { display: flex; }
 
     .letter-content {
       background: #1e0e24;
@@ -447,19 +484,8 @@
       100% { opacity: 1; transform: scale(1) rotateX(0deg); }
     }
 
-    .letter-title {
-      font-size: 1.3rem;
-      color: var(--pink-primary);
-      margin-bottom: 14px;
-    }
-
-    .letter-body {
-      white-space: pre-line;
-      line-height: 1.8;
-      color: #fff5f7;
-      font-size: 0.98rem;
-    }
-
+    .letter-title { font-size: 1.3rem; color: var(--pink-primary); margin-bottom: 14px; }
+    .letter-body { white-space: pre-line; line-height: 1.8; color: #fff5f7; font-size: 0.98rem; }
     .letter-close {
       margin-top: 22px;
       width: 100%;
@@ -473,7 +499,7 @@
       font-family: var(--font-sans);
     }
 
-    /* Screen 6: Birthday Constellation (Star Zoom Interaction) */
+    /* Screen 6: Constellation */
     .constellation-wrapper {
       position: relative;
       width: 100%;
@@ -526,10 +552,9 @@
       color: #fff;
       font-size: 1.02rem;
       line-height: 1.6;
-      transition: all 0.3s ease;
     }
 
-    /* Screen 7: The Gift (Balanced, Timeless Focus) */
+    /* Screen 7: Gift */
     .gift-box-area {
       margin: 30px 0 20px 0;
       width: 130px;
@@ -545,12 +570,6 @@
       transition: transform 0.45s ease;
       filter: drop-shadow(0 10px 24px rgba(255, 143, 163, 0.5));
       user-select: none;
-      animation: gentleFloat 3s infinite ease-in-out alternate;
-    }
-
-    @keyframes gentleFloat {
-      from { transform: translateY(0); }
-      to { transform: translateY(-8px); }
     }
 
     .gift-revealed-card {
@@ -565,7 +584,7 @@
       animation: fadeInScreen 0.6s ease forwards;
     }
 
-    /* Screen 8: Final Beautiful Note (Exact Copy) */
+    /* Screen 8: Final Message & Thank You */
     .final-letter-card {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--card-border);
@@ -574,7 +593,7 @@
       text-align: left;
       line-height: 1.85;
       font-size: 0.98rem;
-      margin: 20px 0;
+      margin: 20px 0 16px 0;
       box-shadow: 0 12px 35px rgba(0,0,0,0.4);
     }
 
@@ -583,12 +602,30 @@
       color: #fff5f7;
     }
 
-    .final-letter-card p:last-child {
-      margin-bottom: 0;
+    .thankyou-card {
+      background: linear-gradient(135deg, rgba(255, 143, 163, 0.15) 0%, rgba(186, 104, 200, 0.1) 100%);
+      border: 1px solid rgba(255, 143, 163, 0.35);
+      border-radius: 20px;
+      padding: 22px 20px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .thankyou-card h3 {
+      font-family: var(--font-hand);
+      font-size: 1.9rem;
+      color: var(--pink-primary);
+      margin-bottom: 8px;
+    }
+
+    .thankyou-card p {
+      font-size: 0.95rem;
+      color: #fff;
     }
 
     @media (max-width: 400px) {
-      .welcome-title { font-size: 2rem; }
       .bday-name { font-size: 2.25rem; }
       .envelopes-grid { grid-template-columns: 1fr; }
       .envelope-item.full-width { grid-column: span 1; }
@@ -599,33 +636,45 @@
 
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Cozy Music Box Audio Toggle -->
-  <button id="musicToggle" class="music-toggle" aria-label="Toggle music box" title="Play cozy music box chime">
+  <!-- Audio Player & Toggle -->
+  <button id="musicToggle" class="music-toggle" aria-label="Toggle piano music" title="Play piano melody">
     ♪
   </button>
+  <audio id="pianoAudio" loop preload="none">
+    <!-- Gentle piano stream -->
+    <source src="https://ia800108.us.archive.org/15/items/HAP_P_Y_BIRTHDAY/Happy%20Birthday%20To%20You%20-%20%EA%B5%AC%ED%98%9C%EC%84%A0.mp3" type="audio/mp3">
+  </audio>
 
-  <!-- Tease Toast Notification -->
   <div id="teaseToast" class="tease-toast">Checking gussa level...</div>
-
-  <!-- Progress Bar Dots -->
   <div class="progress-bar-container" id="progressBar"></div>
 
   <main class="screen-container">
 
-    <!-- SCREEN 1: Welcome -->
+    <!-- SCREEN 1: Interactive Opening Envelope -->
     <section class="screen active" id="screen-1">
-      <div class="moon-icon">🌙</div>
-      <h1 class="welcome-title">Hey Anjali 🌸</h1>
-      <div class="glass-card" style="text-align: center;">
-        <p>Before you continue...</p>
-        <p style="margin-top: 10px; color: #fff; font-weight: 400;">
-          This little corner of the internet was made especially for you.
-        </p>
-        <p style="margin-top: 12px; font-size: 0.93rem;">
-          Take a quiet moment, get comfortable,<br>and keep tapping.
-        </p>
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">💌</div>
+      <h1 style="font-size: 2.1rem; margin-bottom: 6px;">For Anjali 🌸</h1>
+      <p style="font-size: 0.92rem;">A special letter has arrived for you. Tap the envelope to open.</p>
+
+      <div class="opening-envelope-wrapper" onclick="openStartEnvelope()">
+        <div class="start-envelope" id="startEnvelope">
+          <div class="env-flap"></div>
+          <div class="env-wax-seal">🌸</div>
+          <div class="env-letter-slip">
+            <span style="font-family: var(--font-serif); font-size: 1rem; color: #b31238; font-weight: 700;">
+              Hey Anjali ✨
+            </span>
+            <span style="font-size: 0.78rem; color: #4a154b; margin-top: 4px;">
+              This little corner of the internet was made especially for you.
+            </span>
+            <span style="font-family: var(--font-hand); font-size: 1rem; color: #d81b60; margin-top: 6px;">
+              (Tap Enter below to begin)
+            </span>
+          </div>
+        </div>
       </div>
-      <button class="btn-next" onclick="goToScreen(2)">✨ Enter</button>
+
+      <button class="btn-next" id="startEnterBtn" style="display: none;" onclick="goToScreen(2)">✨ Enter Your World</button>
     </section>
 
     <!-- SCREEN 2: Happy Birthday -->
@@ -754,18 +803,18 @@
       <button class="btn-next" onclick="goToScreen(6)">The Night Sky ⭐</button>
     </section>
 
-    <!-- SCREEN 6: Birthday Constellation (Star Zoom Feature) -->
+    <!-- SCREEN 6: Birthday Constellation -->
     <section class="screen" id="screen-6">
       <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Birthday Constellation</h2>
       <p style="font-size: 0.9rem;">Tap on any glowing star to zoom in on a wish.</p>
 
       <div class="constellation-wrapper" id="constellationBox">
-        <div class="star-point" id="star-0" style="top: 20%; left: 22%;" onclick="revealWishWithZoom(0, this)">⭐</div>
-        <div class="star-point" id="star-1" style="top: 18%; left: 72%;" onclick="revealWishWithZoom(1, this)">✨</div>
-        <div class="star-point" id="star-2" style="top: 48%; left: 45%;" onclick="revealWishWithZoom(2, this)">🌟</div>
-        <div class="star-point" id="star-3" style="top: 75%; left: 20%;" onclick="revealWishWithZoom(3, this)">⭐</div>
-        <div class="star-point" id="star-4" style="top: 72%; left: 75%;" onclick="revealWishWithZoom(4, this)">✨</div>
-        <div class="star-point" id="star-5" style="top: 36%; left: 82%;" onclick="revealWishWithZoom(5, this)">🌟</div>
+        <div class="star-point" style="top: 20%; left: 22%;" onclick="revealWishWithZoom(0, this)">⭐</div>
+        <div class="star-point" style="top: 18%; left: 72%;" onclick="revealWishWithZoom(1, this)">✨</div>
+        <div class="star-point" style="top: 48%; left: 45%;" onclick="revealWishWithZoom(2, this)">🌟</div>
+        <div class="star-point" style="top: 75%; left: 20%;" onclick="revealWishWithZoom(3, this)">⭐</div>
+        <div class="star-point" style="top: 72%; left: 75%;" onclick="revealWishWithZoom(4, this)">✨</div>
+        <div class="star-point" style="top: 36%; left: 82%;" onclick="revealWishWithZoom(5, this)">🌟</div>
       </div>
 
       <div class="wish-display-box" id="wishDisplay">
@@ -799,9 +848,9 @@
       <button class="btn-next" id="giftNextBtn" style="display:none;" onclick="goToScreen(8)">One Last Note 🌙</button>
     </section>
 
-    <!-- SCREEN 8: Final Message -->
+    <!-- SCREEN 8: Final Message & Thank You -->
     <section class="screen" id="screen-8">
-      <div class="moon-icon" style="font-size: 2.2rem; margin-bottom: 8px;">🌸</div>
+      <div style="font-size: 2.2rem; margin-bottom: 8px;">🌸</div>
       <h2 style="font-size: 2.2rem; margin-bottom: 8px;">For You, Anjali</h2>
 
       <div class="final-letter-card">
@@ -822,6 +871,15 @@
 
         <p style="color: var(--pink-primary); font-weight: 500; font-size: 1.05rem; margin-top: 18px;">
           Happy Birthday. ❤️
+        </p>
+      </div>
+
+      <!-- Dedicated Thank You Card -->
+      <div class="thankyou-card">
+        <h3>Thank You, Anjali 🌸</h3>
+        <p>Thank you for taking the time to walk through this small universe.</p>
+        <p style="margin-top: 6px; font-size: 0.88rem; color: #ffccd5;">
+          No matter where life takes you, I hope this birthday brought a gentle smile to your day.
         </p>
       </div>
 
@@ -866,7 +924,19 @@
       }
     }
 
-    // Tease Toast function
+    // Opening Envelope Interaction
+    let startEnvOpened = false;
+    function openStartEnvelope() {
+      if (startEnvOpened) return;
+      startEnvOpened = true;
+      const env = document.getElementById('startEnvelope');
+      env.classList.add('opened');
+      playPianoChime(523.25);
+      setTimeout(() => {
+        document.getElementById('startEnterBtn').style.display = 'inline-block';
+      }, 500);
+    }
+
     function showTeaseToast(msg) {
       const toast = document.getElementById('teaseToast');
       toast.innerText = msg;
@@ -876,7 +946,6 @@
       }, 1800);
     }
 
-    // Letters content
     const letters = {
       bad_day: {
         title: "🌧️ Open When You're Having A Bad Day",
@@ -979,26 +1048,21 @@ someone took time out of their life to craft an entire little corner of the inte
       }
     };
 
-    // Teasing envelope tap before opening
     function triggerOpenLetter(key, el, teaseMsg) {
       if (el) {
         el.classList.add('teasing');
-        playMusicBoxChime(587.33); // playful high tin note
+        playPianoChime(587.33);
       }
       if (teaseMsg) showTeaseToast(teaseMsg);
 
       setTimeout(() => {
         if (el) el.classList.remove('teasing');
-        openLetterModal(key);
+        const data = letters[key];
+        if (!data) return;
+        document.getElementById('letterModalTitle').innerText = data.title;
+        document.getElementById('letterModalBody').innerText = data.body;
+        document.getElementById('letterModal').classList.add('active');
       }, 420);
-    }
-
-    function openLetterModal(key) {
-      const data = letters[key];
-      if (!data) return;
-      document.getElementById('letterModalTitle').innerText = data.title;
-      document.getElementById('letterModalBody').innerText = data.body;
-      document.getElementById('letterModal').classList.add('active');
     }
 
     function closeLetter() {
@@ -1009,7 +1073,7 @@ someone took time out of their life to craft an entire little corner of the inte
       if (e.target.id === 'letterModal') closeLetter();
     }
 
-    // Constellation Wishes with Zoom In
+    // Constellation Wishes
     const wishes = [
       "I hope you laugh more often and without hesitation this year.",
       "I hope your family stays healthy, united, and happy.",
@@ -1020,13 +1084,8 @@ someone took time out of their life to craft an entire little corner of the inte
     ];
 
     function revealWishWithZoom(index, starEl) {
-      // Play high chime
-      playMusicBoxChime(659.25 + (index * 60));
-
-      // Reset all stars zoom
+      playPianoChime(659.25 + (index * 55));
       document.querySelectorAll('.star-point').forEach(s => s.classList.remove('zoomed'));
-      
-      // Zoom this star
       starEl.classList.add('zoomed');
 
       const display = document.getElementById('wishDisplay');
@@ -1039,7 +1098,6 @@ someone took time out of their life to craft an entire little corner of the inte
         display.style.transform = 'scale(1)';
       }, 220);
 
-      // Return star to normal gently after 1.5s
       setTimeout(() => {
         starEl.classList.remove('zoomed');
       }, 1600);
@@ -1050,10 +1108,9 @@ someone took time out of their life to craft an entire little corner of the inte
     function openGift() {
       if (giftOpened) return;
       giftOpened = true;
-      playMusicBoxChime(523.25); // C5
-      setTimeout(() => playMusicBoxChime(659.25), 150); // E5
-      setTimeout(() => playMusicBoxChime(783.99), 300); // G5
-      setTimeout(() => playMusicBoxChime(1046.50), 450); // C6
+      playPianoChime(523.25);
+      setTimeout(() => playPianoChime(659.25), 150);
+      setTimeout(() => playPianoChime(783.99), 300);
 
       const emoji = document.getElementById('giftEmoji');
       emoji.style.transform = "scale(1.3) rotate(-12deg)";
@@ -1065,12 +1122,13 @@ someone took time out of their life to craft an entire little corner of the inte
     }
 
     // ==========================================
-    // COZY "TIN TIN TIN" MUSIC BOX AUDIO ENGINE
-    // Uses Web Audio API - 100% self contained!
+    // PIANO AUDIO ENGINE (Stream + Synth Backup)
     // ==========================================
     let audioCtx = null;
-    let isMusicPlaying = false;
-    let musicInterval = null;
+    let isPlaying = false;
+    let synthInterval = null;
+    const musicBtn = document.getElementById('musicToggle');
+    const audioEl = document.getElementById('pianoAudio');
 
     function initAudio() {
       if (!audioCtx) {
@@ -1082,85 +1140,68 @@ someone took time out of their life to craft an entire little corner of the inte
       }
     }
 
-    // Generates a pure bell-like Music Box "tin" chime
-    function playMusicBoxChime(freq, when = 0, duration = 1.4) {
+    function playPianoChime(freq, duration = 1.2) {
       if (!audioCtx) return;
-      const now = audioCtx.currentTime + when;
-
+      const now = audioCtx.currentTime;
       const osc = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
+      const gain = audioCtx.createGain();
 
-      // Sine wave with soft harmonic
-      osc.type = 'sine';
+      osc.type = 'triangle'; // Soft piano warmth
       osc.frequency.setValueAtTime(freq, now);
 
-      // Music box envelope (immediate strike, metallic decay)
-      gainNode.gain.setValueAtTime(0.35, now);
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      gain.gain.setValueAtTime(0.28, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-      osc.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
 
       osc.start(now);
       osc.stop(now + duration);
     }
 
-    // Twinkling cozy melody (Tin tin tin tin)
-    const melody = [
-      { f: 523.25, d: 0.4 }, // C5
-      { f: 523.25, d: 0.4 }, // C5
-      { f: 587.33, d: 0.8 }, // D5
-      { f: 523.25, d: 0.8 }, // C5
-      { f: 698.46, d: 0.8 }, // F5
-      { f: 659.25, d: 1.4 }, // E5
-      { f: 523.25, d: 0.4 }, // C5
-      { f: 523.25, d: 0.4 }, // C5
-      { f: 587.33, d: 0.8 }, // D5
-      { f: 523.25, d: 0.8 }, // C5
-      { f: 783.99, d: 0.8 }, // G5
-      { f: 698.46, d: 1.4 }  // F5
+    // Acoustic Happy Birthday Notes for Synth Backup
+    const bdayMelody = [
+      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 293.66, d: 0.8 }, { f: 261.63, d: 0.8 },
+      { f: 349.23, d: 0.8 }, { f: 329.63, d: 1.4 }, { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 },
+      { f: 293.66, d: 0.8 }, { f: 261.63, d: 0.8 }, { f: 392.00, d: 0.8 }, { f: 349.23, d: 1.4 }
     ];
 
-    function startMusicBox() {
-      initAudio();
-      let noteIndex = 0;
-
-      function playNextNote() {
-        if (!isMusicPlaying) return;
-        const note = melody[noteIndex];
-        playMusicBoxChime(note.f, 0, 1.8);
-
-        const nextDelay = note.d * 850; // Slow, cozy lullaby tempo
-        noteIndex = (noteIndex + 1) % melody.length;
-        musicInterval = setTimeout(playNextNote, nextDelay);
+    function startSynthPiano() {
+      let idx = 0;
+      function playNext() {
+        if (!isPlaying) return;
+        const note = bdayMelody[idx];
+        playPianoChime(note.f, 1.4);
+        idx = (idx + 1) % bdayMelody.length;
+        synthInterval = setTimeout(playNext, note.d * 850);
       }
-
-      playNextNote();
+      playNext();
     }
 
-    function stopMusicBox() {
-      isMusicPlaying = false;
-      if (musicInterval) clearTimeout(musicInterval);
-    }
-
-    const musicBtn = document.getElementById('musicToggle');
     musicBtn.addEventListener('click', () => {
       initAudio();
-      if (!isMusicPlaying) {
-        isMusicPlaying = true;
+      if (!isPlaying) {
+        isPlaying = true;
         musicBtn.classList.add('playing');
         musicBtn.innerText = '⏸';
-        startMusicBox();
-        showTeaseToast('Playing cozy music box... 🎵');
+
+        // Try streaming the real piano track first
+        audioEl.play().catch(() => {
+          // If browser policy blocks direct MP3 stream, fallback to warm piano synth
+          startSynthPiano();
+        });
+        showTeaseToast('Playing piano birthday track 🎹');
       } else {
-        stopMusicBox();
+        isPlaying = false;
         musicBtn.classList.remove('playing');
         musicBtn.innerText = '♪';
+        audioEl.pause();
+        if (synthInterval) clearTimeout(synthInterval);
       }
     });
 
     // ==========================================
-    // AMBIENT PARTICLES (Stars + Drifting Petals)
+    // AMBIENT PARTICLES (Stars + Petals)
     // ==========================================
     const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
